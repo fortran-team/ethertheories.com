@@ -54,7 +54,9 @@ article > table {
     border-collapse: collapse;
     margin-top: 20px;
 }
-
+article {
+	max-width: 35em;
+}
 td, th {
     border: 1px solid black;
 	vertical-align: top;
@@ -99,4 +101,16 @@ div.cover img {
     height: auto;
     max-height: 450px;
     overflow-x: hidden;
+}
+
+/* ******************************* */
+/* Custom for Responsible Drinking */
+/* ******************************* */
+
+#s01 table {
+    width: 100%;
+    margin-bottom: 30px;
+}
+#s01 table, #s01 tr, #s01 td, #s01 th {
+	border: 0;
 }
