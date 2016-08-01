@@ -85,9 +85,7 @@ There must be some system of views about the
 use of liquor, some ethical standard, of which the 
 Wets could say, "So much we admit," and the 
 Drys would reply, "It is not enough, but so far 
-as it goes, it is true." 
-
-\[p.71\] 
+as it goes, it is true." \[p.71\] 
 
 If the point of unanimity could be found, it 
 would be wise to concentrate attention upon the 
@@ -237,9 +235,7 @@ liquor, while two call for abstention. Two of them
 accept liquor as a part of normal life, without 
 giving it any special position as an antagonist 
 against which man tries his strength; three of 
-
 \[p.78\] 
-
 them regard liquor as a competitor against which 
 man strives in combat. Drunkenness in the drinking bout is a sign of courage; in connection with 
 the ceremonial or aesthetic use of liquor it is a 

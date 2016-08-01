@@ -178,9 +178,7 @@ its enforcement. Legislation, so contrived, could
 be made effective on a much narrower basis of 
 public approval than the present legislation would 
 require. The present legislation is simply out of 
-tune with the state of public opinion. 
-
-\[p.91\] 
+tune with the state of public opinion. \[p.91\] 
 
 ### Liquor Legislation and Government Machinery.
 

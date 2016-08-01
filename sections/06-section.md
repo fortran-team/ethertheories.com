@@ -16,11 +16,7 @@ instrument of the reconsideration being usually
 the referendum or plebiscite. Second, it is proposed that the control of liquor policy be shifted 
 from the national to the state or local authorities. 
 Third, it is urged that the scope of the Prohibition law be altered or definitely interpreted to 
-permit manufacture, but not sale, of fermented 
-
-\[p.56\] 
-
-beverages -- that is to say, home brewing. Fourth, 
+permit manufacture, but not sale, of fermented \[p.56\] beverages -- that is to say, home brewing. Fourth, 
 it is demanded that the sale as well as the manufacture of beverages be permitted, but under restriction either as to the type of beverage (light 
 wines and beers) or the quality of the dealer 
 (government sale, or sale by private monopoly 
@@ -51,7 +47,7 @@ into the law books any scheme that the whole
 country would so far accept as to be willing to 
 turn its attention to other problems? 
 
-\1. *Referendum*. The referendum or plebiscite 
+1\. *Referendum*. The referendum or plebiscite 
 on Prohibition is, of all these projects, the most 
 non-committal and indecisive. It would determine 
 whether at the moment the majority of the voting 
@@ -72,7 +68,7 @@ favors the modification of the law, which of these
 proposed modifications will answer the needs of 
 the time? 
 
-\2. *Decentralization*. To give control of liquor 
+2\. *Decentralization*. To give control of liquor 
 policy to state or local authorities, taking it out 
 of the hands of the Federal Government, would 
 shift the forum of the controversy. But how 
@@ -102,7 +98,7 @@ nation. Rather than emigrate from a Dry district he will prefer to agitate, and 
 extend their territory by small conquests. The 
 road to political peace does not lie in that direction. 
 
-\3. *Home Brewing*. The Volstead Act and many 
+3\. *Home Brewing*. The Volstead Act and many 
 \[p.60\] 
 of the state Prohibition acts contain provisions 
 which, under administrative interpretation, are 
@@ -130,7 +126,7 @@ Home brew is practically legal at the present
 moment, and never was the uproar greater than it 
 is today. 
 
-\4. "*Light wines and beers.*" Let the experiment be made of legalizing the sale as well as the 
+4\. "*Light wines and beers.*" Let the experiment be made of legalizing the sale as well as the 
 home manufacture of light wines and beers, either 
 by changing the definition of "intoxicating beverage" or in any other way. Then the question 
 will arise: Why stop with wines and beers? The 
@@ -149,7 +145,7 @@ Wets, and if the principles of it were enacted into
 \[p.62\] 
 law the battle for full freedom would still go on. 
 
-\5. *Government sale*. The proposal to permit 
+5\. *Government sale*. The proposal to permit 
 sale of liquor (whether limited to wines and beers 
 or not) by a public dispensary under government 
 ownership has gained adherents on the very sound 
@@ -186,7 +182,7 @@ Drys and Wets alike, and the fact that liquor was
 being retailed by the government would keep the 
 liquor question constantly on the political agenda. 
 
-\6. *Repeal of Prohibition laws*. Let us stretch 
+6\. *Repeal of Prohibition laws*. Let us stretch 
 our imaginations further and assume that all legislation against liquor is repealed. A legalized 
 liquor industry returns like Rip Van Winkle from 
 the mountain. How changed is the scene! We 

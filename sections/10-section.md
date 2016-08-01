@@ -62,9 +62,7 @@ Liquor control, whether by Moslems or Methodists, gave all its attention to the 
 harmful uses of liquor, and did not concern itself 
 with the development of innocent uses. That there 
 were innocent uses was admitted in both cases. 
-The Moslems may read in Verse 216 of the Second Surah of the *Koran*: 
-
-\[p.156\] 
+The Moslems may read in Verse 216 of the Second Surah of the *Koran*: \[p.156\] 
 
 > "They will ask thee concerning wine and games 
 of chance. Say: In both is great sin, and advantage also, but the sin is greater than the advantage. 
@@ -323,7 +321,8 @@ branch of our law is a living and growing thing
 which adapts itself to its environment; the liquor 
 law, on the contrary, is dead. 
 
-### The Principles of a Living System of Liquor Law. 
+### The Principles of a Living System of Liquor Law.
+ 
 A living system of liquor law could grow from 
 very modest beginnings. As in the case of the 
 automotive industry, the attempt might be made 
