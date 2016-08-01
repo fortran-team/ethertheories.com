@@ -114,3 +114,8 @@ div.cover img {
 #s01 table, #s01 tr, #s01 td, #s01 th {
 	border: 0;
 }
+.post-header {
+	font-size: 200%;
+	font-style: bold;
+	margin-bottom: 30px;
+}

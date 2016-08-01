@@ -7,3 +7,4 @@ covercaption:
 
 ### [Contents](contents.html)
 
+* [Back cover blurb](blurb.html)
