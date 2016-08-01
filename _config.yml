@@ -1,20 +1,20 @@
 ---
 # Site settings
-title: Title of Book
-brand: Title of Book
-subtitle: Book has a subtitle
-author: Mary Author
-date: 1918
+title: Responsible Drinking
+brand: Responsible Drinking
+subtitle: A Discreet Inquiry and a Modest Proposal
+author: Robert C. Binkley
+date: 1930
 description: > # this means to ignore newlines until "baseurl:"
-  Author, Title (Place: Publisher, Year)
+  Robert C. Binkley, Responsible Drinking: A Discreet Inquiry and a Modest Proposal (New York: Vanguard Press, 1930)
 description_latex: > # this means to ignore newlines until "baseurl:"
-  Author, \textit{Title} (Place: Publisher, Year)
-baseurl: "/path/to/work" # the subpath of your site, e.g. /blog/
-url: "https://www.domain.com"
-editor: Jim Editor
-twitter: "@mytwitterhandle"
+  Robert C. Binkley, \textit{Responsible Drinking: A Discreet Inquiry and a Modest Proposal} (New York: Vanguard Press, 1930)
+baseurl: "/rcb/works/responsibledrinking" # the subpath of your site, e.g. /blog/
+url: "https://www.wallandbinkley.com"
+editor: Peter Binkley
+twitter: "@pabinkley"
 license_icon: publicdomain
-license_text: "To the extent possible under law, Jim Editor has waived all copyright and related or neighboring rights to \"Title of Book\". This work is published from: Canada."
+license_text: "To the extent possible under law, Peter Binkley has waived all copyright and related or neighboring rights to \"Title of Book\". This work is published from: Canada."
 jb_credit_latex: "Generated with jekyll-book ¶ \\href{https://github.com/pbinkley/jekyll-book}{https://github.com/pbinkley/jekyll-book}"
 # Info for CC license vcard in _includes/license.html
 publisher_url: "http://www.wallandbinkley.com/rcb/"
@@ -40,7 +40,7 @@ navigation:
   left:
     links:
       - title: Home
-        href: /path/to/work/
+        href: /rcb/
       - title: Chapters
         dropdown: sections
       - title: Downloads
