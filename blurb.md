@@ -37,14 +37,14 @@ this normal equipment of the beginning college instructor, went to New York
 to teach history at New York University. He wrote about War Guilt and that
 sort of thing.
 
-In 1929 the Binkleys published a book called *What is Right with Marriage*,
+In 1929 the Binkleys published a book called [*What is Right with Marriage*](https://www.wallandbinkley.com/rcb/works/marriage/),
 which paid them enough royalties to get them to Rome. There they were able
 to study drinking in the Italian style. Returning to America, he went to teach
 at Smith College, and after a year at that place, to Western Reserve University.
 And about this time he began to think remorsefully of the aid he had once
 given to the Prohibitionist cause, and the money he had accepted from their
 campaign fund. He felt that he should contribute to an intellectual conscience
-fund, to expiate the olfence of having been so certain, upon such slight evidence, that Prohibition would be so excellent a thing for the country. That
+fund, to expiate the offence of having been so certain, upon such slight evidence, that Prohibition would be so excellent a thing for the country. That
 which he found hardest to forgive was the formulation of the problem of liquor
 control in such a way that rigidity and dogmatism were encouraged on both
 sides. This book is the expiatory offering.
