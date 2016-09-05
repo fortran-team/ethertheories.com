@@ -5,8 +5,6 @@ permalink: index.html
 covercaption: 
 ---
 
-### [Contents](contents.html)
-
 In *Responsible Drinking*, published ten years after Prohibition and three years before its repeal, Binkley proposed a new legal framework for regulating the consumption of liquor. Criminalizing the liquor trade had manifestly failed: liquor still flowed and the industry had been taken over by organized crime. A *New York Times* editorial during the 1928 presidential campaign summed it up:
 
 > A Congress largely composed of hypocrites, Dry-Wets by the million, constant bribery of officials, the virtual impotence of a statute fitfully and sporadically enforced at monstrous expense, the spy, the informer, careless frequent infringement of the rights of the citizen; the young trained to regard the breaking of one law as a distinction, almost a virtue; the degeneration of the public conscience: these are among the symptoms of a moral and social corruption more insidious than the official or financial sort. The latter is temporary. The former is getting to be permanent and growing worse.[^nytimesed]
