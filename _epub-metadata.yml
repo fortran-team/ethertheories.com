@@ -1,19 +1,19 @@
 ---
 title:
 - type: main
-  text: Title
+  text: Responsible Drinking
 - type: subtitle
-  text: Subtitle
+  text: A Discreet Inquiry and a Modest Proposal
 creator: Author
 creator:
 - role: editor
-  text: Editor
-publisher: Publisher
-date: Year
+  text: Peter Binkley
+publisher: Vanguard Press
+date: 1930
 identifier:
 - scheme: LCCN
-  text: 111111111
+  text: 30029538 
 - scheme: OCLC
-  text: 222222222
+  text: 2051035
 ---
 
