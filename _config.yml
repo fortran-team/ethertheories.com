@@ -50,7 +50,7 @@ navigation:
   right:
     content: searchbox.html
 
-gems:
+plugins:
   - jekyll-sitemap
   - octopress-debugger
 #  - jekyll-lunr-js-search
