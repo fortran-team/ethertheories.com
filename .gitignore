@@ -3,3 +3,6 @@ _site
 Gemfile.lock
 downloads
 _data
+
+.idea
+*.iml
