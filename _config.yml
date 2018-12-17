@@ -10,7 +10,7 @@ description: > # this means to ignore newlines until "baseurl:"
   Robert C. Binkley, Responsible Drinking: A Discreet Inquiry and a Modest Proposal (New York: Vanguard Press, 1930)
 description_latex: > # this means to ignore newlines until "baseurl:"
   Robert C. Binkley, \textit{Responsible Drinking: A Discreet Inquiry and a Modest Proposal} (New York: Vanguard Press, 1930)
-baseurl: "/rcb/works/responsibledrinking" # the subpath of your site, e.g. /blog/
+baseurl: "/ethertheories.com" # the subpath of your site, e.g. /blog
 url: "https://www.wallandbinkley.com"
 contentslink: "contents.html"
 editor: Peter Binkley
