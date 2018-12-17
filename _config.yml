@@ -15,7 +15,7 @@ url: "https://www.wallandbinkley.com"
 contentslink: "contents.html"
 editor: Peter Binkley
 twitter: "@pabinkley"
-license_icon: publicdomain
+license_icon: assets/publicdomain.png
 license_text: "To the extent possible under law, Peter Binkley has waived all copyright and related or neighboring rights to \"Title of Book\". This work is published from: Canada."
 jb_credit_latex: "Generated with jekyll-book ¶ \\href{https://github.com/pbinkley/jekyll-book}{https://github.com/pbinkley/jekyll-book}"
 # Info for CC license vcard in _includes/license.html
@@ -28,10 +28,6 @@ previousrun: _data/previousrun.yml
 
 # Build settings
 markdown: Pandoc
-pandoc:
-  extensions:
-    - normalize
-    - smart
 
 # downloads files are generated during the rendering, so we need to 
 # ignore them or it will cause an infinite loop of re-rendering
@@ -59,14 +55,14 @@ plugins:
 downloads:
     pdf:
       deps: ["_config.yml","_latex/jekyll-book.latex","_scripts/preprocess.rb"]
-      command: "cat _config.yml sections/*.md | _scripts/preprocess.rb | pandoc --latex-engine=xelatex --template=_latex/jekyll-book.latex -f markdown+pipe_tables+footnotes -o %{dirDownloads}/%{slug}.pdf"
+      command: "ruby _scripts/preprocess.rb _config.yml > _data/_config.md && cat _data/_config.md sections/*.md | pandoc --pdf-engine=xelatex --template=_latex/jekyll-book.latex -o %{dirDownloads}/%{slug}.pdf"
     epub:
       deps: ["_config.yml","_epub-metadata.yml","assets/cover.jpg"]
-      command: "pandoc -S --epub-cover-image=assets/cover.jpg --epub-metadata=_epub-metadata.yml -f markdown+pipe_tables+footnotes sections/*.md  -o %{dirDownloads}/%{slug}.epub"
-    md:
-      deps: ["_config.yml"]
-      command: "pandoc sections/*.md -t plain -o %{dirDownloads}/%{slug}.txt"
+      command: "cat sections/*.md | pandoc --epub-cover-image=assets/cover.jpg --epub-metadata=_epub-metadata.yml -o %{dirDownloads}/%{slug}.epub"
     txt:
       deps: ["_config.yml"]
-      command: "pandoc sections/*.md -o %{dirDownloads}/%{slug}.md"
+      command: "cat sections/*.md | pandoc -t plain -o %{dirDownloads}/%{slug}.txt"
+    md:
+      deps: ["_config.yml"]
+      command: "cat sections/*.md | pandoc -o %{dirDownloads}/%{slug}.md"
 ---
