@@ -9,6 +9,7 @@ group: sections
 PART ONE 
 
 A DISCREET INQUIRY 
+
 |       |                                                                                 |     |
 |------:|:--------------------------------------------------------------------------------|----:|
 | I.    | [A Legacy of Tumult](1-legacy-of-tumult.html)                                   |   3 |
@@ -17,7 +18,8 @@ A DISCREET INQUIRY
 | IV.   | [Referendum and Modification](4-referendum-and-modification.html)               |  55 | 
 | V.    | [Education](5-education.html)                                                   |  67 |
 
-PART TWO 
+PART TWO
+ 
 |       |                                                                                 |     |
 |------:|:--------------------------------------------------------------------------------|----:|
 | VI.   | [How to Make Men Good by Law](6-how-to-make-men-good-by-law.html)               |  82 |
