@@ -6,6 +6,19 @@ id: s02
 group: sections
 ---
 
+Обработка формул на стороне клиента.
+
+Инлайн-формула $$\forall x \in R$$ показана в этом предложении.
+
+А ниже показана матрица LaTeX:
+$$
+M = \left( \begin{array}{ccc}
+x_{11} & x_{12} & \ldots \\
+x_{21} & x_{22} & \ldots \\
+\vdots & \vdots & \ldots \\
+\end{array} \right)
+$$
+
 Five hundred years ago, as history relates, the 
 Great Schism divided the obedience of Western 
 Christendom between two rival lines of Popes, 
