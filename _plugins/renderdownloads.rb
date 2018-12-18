@@ -25,6 +25,9 @@ Jekyll::Hooks.register :site, :pre_render do |site|
 	previouscontent = previousrun["content"]
 	previousdeps = previousrun["deps"]
 
+  # Получаем путь к файлу обложки книги
+	coverImage = site.config["cover_image"]
+
 	# calculate slug, to be used as filename for download files
 	slug = site.config["brand"].slugify
 
@@ -39,7 +42,10 @@ Jekyll::Hooks.register :site, :pre_render do |site|
 	formats = {}
 	alldeps = []
 	site.config['downloads'].each do |key,value|
-		formats[key] = {"deps" => value['deps'], "command" => (value['command'] % {dirDownloads: dirDownloads, slug: slug})}
+		formats[key] = {
+        "deps" => value['deps'],
+        "command" => (value['command'] % {dirDownloads: dirDownloads, slug: slug, coverImage: coverImage})
+    }
 		alldeps = (alldeps + value['deps']).uniq
 	end
 
