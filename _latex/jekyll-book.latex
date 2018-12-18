@@ -24,7 +24,7 @@ $if(euro)$
 $endif$
 \else % if luatex or xelatex
   \ifxetex
-    \usepackage{mathspec}
+    \usepackage{unicode-math} % unicode-math в отличие от mathspec может работать с мат. спец. символами, типа символов "принадлежности множеству" и "для любого значения"
     \usepackage{xltxtra,xunicode}
   \else
     \usepackage{fontspec}
@@ -32,7 +32,19 @@ $endif$
   \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
   \newcommand{\euro}{€}
 $if(mainfont)$
-    \setmainfont{$mainfont$}cd 
+    % вначале устанавливаем основной шрифт и, тем самым, создаем точку отсчета размеров доп. шрифтов (параметр Scale)
+    \setmainfont{$mainfont$}[
+        SizeFeatures={Size=$fontsize$},
+    ]
+
+    % потом повторяем операцию по установке основного шрифта с целью задать курсивный шрифт того же размера, что и основной шрифт
+    \setmainfont{$mainfont$}[
+        ItalicFeatures={Scale=MatchUppercase},
+    ]
+
+    % выставляем 1,5 интервал между строками в PDF с помощью команды setstretch из пакета setspace
+    \usepackage{setspace}
+    \setstretch{1.5}
 $endif$
 $if(sansfont)$
     \setsansfont{$sansfont$}
@@ -41,7 +53,10 @@ $if(monofont)$
     \setmonofont[Mapping=tex-ansi]{$monofont$}
 $endif$
 $if(mathfont)$
-    \setmathfont(Digits,Latin,Greek){$mathfont$}
+    % выставляем шрифт для мат. выражений и формул
+    \setmathfont[
+        SizeFeatures={Size=$fontsize$},
+    ]{$mathfont$}
 $endif$
 \fi
 % use upquote if available, for straight quotes in verbatim environments
@@ -154,6 +169,12 @@ $endfor$
 \rhead{\thepage}
 
 \begin{document}
+
+% на титульной странице создаем обложку книги по размеру текстовой области страницы
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{$cover_image$}
+% стираем на титульной странице ее номер
+\thispagestyle{empty}
+
 $if(title)$
 \maketitle
 \thispagestyle{empty}

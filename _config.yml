@@ -16,6 +16,7 @@ contentslink: "contents.html"
 editor: Peter Binkley
 twitter: "@pabinkley"
 license_icon: assets/publicdomain.png
+cover_image: assets/cover.jpg
 license_text: "To the extent possible under law, Peter Binkley has waived all copyright and related or neighboring rights to \"Title of Book\". This work is published from: Canada."
 jb_credit_latex: "Generated with jekyll-book ¶ \\href{https://github.com/pbinkley/jekyll-book}{https://github.com/pbinkley/jekyll-book}"
 # Info for CC license vcard in _includes/license.html
@@ -28,6 +29,9 @@ previousrun: _data/previousrun.yml
 
 # Build settings
 markdown: Pandoc
+mainfont: Times New Roman
+mathfont: TeX Gyre Termes Math # This is a clone of Times
+fontsize: 14
 pandoc:
   extensions:
     - mathjax
