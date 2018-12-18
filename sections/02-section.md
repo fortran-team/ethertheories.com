@@ -14,6 +14,8 @@ group: sections
 Инлайн-формула $\forall x \in R$ показана в этом предложении.
 
 А ниже показана матрица LaTeX:
+
+<center>
 $$
 M = \left( \begin{array}{ccc}
 x_{11} & x_{12} & \ldots \\
@@ -21,6 +23,7 @@ x_{21} & x_{22} & \ldots \\
 \vdots & \vdots & \ldots \\
 \end{array} \right)
 $$
+</center>
 
 Five hundred years ago, as history relates, the 
 Great Schism divided the obedience of Western 

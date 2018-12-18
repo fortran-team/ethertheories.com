@@ -65,7 +65,7 @@ downloads:
       command: "ruby _scripts/preprocess.rb _config.yml > _data/_config.md && cat _data/_config.md sections/*.md | pandoc --pdf-engine=xelatex --template=_latex/jekyll-book.latex -o %{dirDownloads}/%{slug}.pdf"
     epub:
       deps: ["_config.yml","_epub-metadata.yml","assets/cover.jpg"]
-      command: "cat sections/*.md | pandoc --epub-cover-image=assets/cover.jpg --epub-metadata=_epub-metadata.yml -o %{dirDownloads}/%{slug}.epub"
+      command: "cat sections/*.md | pandoc -t epub2 --webtex --epub-cover-image=assets/cover.jpg --epub-metadata=_epub-metadata.yml -o %{dirDownloads}/%{slug}.epub"
     txt:
       deps: ["_config.yml"]
       command: "cat sections/*.md | pandoc -t plain -o %{dirDownloads}/%{slug}.txt"
