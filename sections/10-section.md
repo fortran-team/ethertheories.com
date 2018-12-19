@@ -1078,7 +1078,7 @@ his brother, F. Scott McBride of the Anti-Saloon
 League, "He has no lively conscience against the 
 evils of the liquor traffic and *little heart interest 
 for those who suffer from drink*,"[^206-1] characterizes 
-the result if not the intention, of the Prohibition 
+the[^206-2] result if not[^206-1] the intention, of the Prohibition 
 policy itself. The policy reaches out toward distant and obscure objectives, not being concerned 
 with the objects which are more immediate and 
 clearer. It seeks to remedy indirect and far-fetched evils, and leaves the direct, individual 
@@ -1092,6 +1092,7 @@ drinkers would be satisfied at once, and those injured by liquor would be able t
 of attention upon their interests and adequate indemnities for their injuries. \[p.207\] 
 
 [^206-1]: *New York Times*, June 1, 1930. 
+[^206-2]: *2 New York Times 2*, June 2, 1902. 
 
 ### Reforming the Prohibitionist. 
 
