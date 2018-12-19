@@ -1,0 +1,8 @@
+
+\newpage
+$if(title)$
+<center>
+# $title$
+</center>
+$endif$
+$body$

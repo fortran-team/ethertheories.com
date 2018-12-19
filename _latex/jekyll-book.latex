@@ -140,7 +140,7 @@ $if(strikeout)$
 % avoid problems with \sout in headers with hyperref:
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
-\setlength{\parindent}{20pt}
+\setlength{\parindent}{0pt} % убираем отступы у абзацев
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 $if(numbersections)$
@@ -218,8 +218,10 @@ $jb_credit_latex$
 \end{center}
 $endif$
 
-
-
+% В основной части книги делаем большие интервалы между параграфами.
+% При этом титульная страница форматируется по-старому, т.к. если к ней
+% применить это форматирование, то она не влезет в рамки одной страницы PDF
+\setlength{\parskip}{10pt}
 
 
 \clearpage
