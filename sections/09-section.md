@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "VII. What Is Meant by Minding One's Own Business"
-permalink: 7-minding-ones-own-business.html
-id: s09
+permalink: minding-ones-own-business-chapter-c07.html
+id: c07
 group: sections
 ---
 

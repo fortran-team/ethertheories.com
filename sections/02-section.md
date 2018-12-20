@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "Preface"
-permalink: preface.html
-id: s02
+permalink: chapter-preface.html
+id: preface
 group: sections
 ---
 

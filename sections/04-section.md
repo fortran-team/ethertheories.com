@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "II. Enforcement"
-permalink: 2-enforcement.html
-id: s04
+permalink: enforcement-chapter-c02.html
+id: c02
 group: sections
 ---
 

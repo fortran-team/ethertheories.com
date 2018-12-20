@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "V. Education"
-permalink: 5-education.html
-id: s07
+permalink: education-chapter-c05.html
+id: c05
 group: sections
 ---
 

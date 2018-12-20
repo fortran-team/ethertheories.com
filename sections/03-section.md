@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "I. A Legacy of Tumult"
-permalink: 1-legacy-of-tumult.html
-id: s03
+permalink: legacy-of-tumult-chapter-c01.html
+id: c01
 group: sections
 --- 
 

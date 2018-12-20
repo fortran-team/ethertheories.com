@@ -115,15 +115,20 @@ div.cover img {
 /* Custom for Responsible Drinking */
 /* ******************************* */
 
-#s01 table {
+.contents table {
     width: 100%;
     margin-bottom: 30px;
 }
-#s01 table, #s01 tr, #s01 td, #s01 th {
+
+.contents table,
+.contents tr,
+.contents td,
+.contents th {
 	border: 0;
 }
+
 .post-header {
 	font-size: 200%;
-	font-style: bold;
+	font-weight: bold;
 	margin-bottom: 30px;
 }

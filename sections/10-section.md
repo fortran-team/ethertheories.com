@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "VIII. Modest Proposal for Responsible Drinking"
-permalink: 8-modest-proposal.html
-id: s10
+permalink: modest-proposal-chapter-c08.html
+id: c08
 group: sections
 ---
 

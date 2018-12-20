@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "Front Matter"
-permalink: front.html
-id: s00
+permalink: chapter-front.html
+id: front
 group: sections
 ---
 

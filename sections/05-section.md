@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "III. Nullification"
-permalink: 3-nullification.html
-id: s05
+permalink: nullification-chapter-c03.html
+id: c03
 group: sections
 ---
 

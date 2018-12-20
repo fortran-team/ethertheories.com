@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "VI. How to Make Men Good by Law"
-permalink: 6-how-to-make-men-good-by-law.html
-id: s08
+permalink: how-to-make-men-good-by-law-chapter-c06.html
+id: c06
 group: sections
 --- 
 

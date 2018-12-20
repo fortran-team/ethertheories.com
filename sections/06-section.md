@@ -1,8 +1,8 @@
 ---
 layout: section
 title: "IV. Referendum and Modification"
-permalink: 4-referendum-and-modification.html
-id: s06
+permalink: referendum-and-modification-chapter-c04.html
+id: c04
 group: sections
 ---
 
