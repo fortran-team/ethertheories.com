@@ -62,8 +62,8 @@ plugins:
 
 downloads:
     pdf:
-      deps: ["_config.yml","_latex/jekyll-book.latex","_scripts/preprocess.rb",*cover_image]
-      command: "ruby _scripts/preprocess.rb _config.yml sections/*.md | pandoc --pdf-engine=xelatex --template=_latex/jekyll-book.latex -o %{dirDownloads}/%{slug}.pdf"
+      deps: ["_config.yml","_latex/jekyll-book.latex","_scripts/preprocess_pdf.rb",*cover_image]
+      command: "ruby _scripts/preprocess_pdf.rb _config.yml sections/*.md | pandoc --pdf-engine=xelatex --template=_latex/jekyll-book.latex -o %{dirDownloads}/%{slug}.pdf"
     epub:
       deps: ["_config.yml","_epub-metadata.yml",*cover_image]
       command: "cat sections/*.md | pandoc -t epub2 --webtex --epub-cover-image=%{coverImage} --epub-metadata=_epub-metadata.yml -o %{dirDownloads}/%{slug}.epub"
