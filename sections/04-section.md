@@ -245,6 +245,8 @@ is making this situation the exception rather than
 the rule. Consequently we cannot reasonably hope 
 that Prohibition, once made effective, would continue without agitation as a permanent and definitive regime. 
 
+<span id="p02"></span> 
+Строка с ЖОПОЙ
 A generation brought to maturity without having been given the opportunity to drink will have 
 been denied the equally important opportunity 
 of refusing to drink. It will harbor no grievance 

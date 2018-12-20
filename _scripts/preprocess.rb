@@ -16,6 +16,7 @@ require 'yaml'
 @mainyamldone = false # флаг завершения обработки файла _config.yml
 @inyaml = false # флаг нахождения потока ввода в хедере md-файла или в _config.yml
 @inbox = false # флаг нахождения потока ввода в теле md-файла, а именно в блоке <div class="box">...</div>
+@firstline_inbox = nil # флаг, обозначающий, что мы перешли к обработке первой строки в html-блоке <div class="box">...</div>
 @yaml_block = "" # данные хедера md-файла или _config.yml в виде строки текста
 @main_yaml = nil # данные хедера файла _config.yml в виде объекта YAML из пакета 'yaml'
 @section_yaml = nil # данные хедера md-файла в виде объекта YAML из пакета 'yaml'
@@ -76,25 +77,38 @@ ARGF.each_with_index do |line, idx| # FIXME индекс idx не использ
             #   текст 3
             # то берем "текст 2" и оформляем его в latex-формате
             @inbox = true # отмечаем, что мы вошли в <div class="box"> и со следующей строки пойдет "текст 2"
-            print "\\setlength{\\fboxsep}{10pt}"
+            # Создаем отступы слева, справа, сверху и снизу для minipage, который описан ниже
+            print "\\setlength{\\fboxsep}{0.05\\textwidth}"
             print "\n"
-            print "\\fbox{\\begin{minipage}{30em}"
+            # Создаем minipage под ширину страницы PDF-файла (с учетом отступов выше)
+            print "\\fbox{\\begin{minipage}{0.9\\textwidth}"
             print "\n"
+            @firstline_inbox = true
         elsif /<\/div>/.match(line) && @inbox
             @inbox = false # отмечаем, что мы вышли из <div class="box">...</div>
+            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
+                # Закрываем последний текстовый latex-блок
+                print "}"
+                print "\n"
+            end
+            # Закрываем minipage
             print "\\end{minipage}}"
             print "\n"
-        elsif @inbox
+        elsif @inbox # обработка текста в html-блоке <div class="box">...</div>
+            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
+                # Закрываем предыдущий текстовый latex-блок
+                print "\\\\}" # \\\\ - попадет в latex как \\, что является для latex синонимом \n (перевод строки)
+                print "\n"
+            end
             # Преобразуем строки html-блока <div class="box">...</div> в latex-строки \texttt
             print "\\texttt{"
             # Текст в виде *текст* делаем подчеркнутым
             # Нужно помнить, что открывающую и закрывающую звездочки для обозначения нашего желания подчеркнуть
             # текст в генерируемом pdf-документе надо делать на одной строке текста в md-файле главы книги
             line.gsub!(/\*(.+?)\*/, "\\underline{\\1}")
-            # Пробелы в начале строки заменяем на latex-отступ заданного размера
-            print line.sub(/^( )*/, "\\hspace*{0.5ex}")
-            print "\\\\}"
-            print "\n"
+            # Пробелы в начале строки заменяем на latex-отступ для смещения текста к правому краю minipage-а
+            print line.sub(/^( )*/, "\\hspace*{\\fill}")
+            @firstline_inbox = false
         elsif !@section_yaml.nil?
             # Делаем преобразование ссылок из md-формата в latex-формат
             # Должно работать и для нескольких ссылок в одной строке

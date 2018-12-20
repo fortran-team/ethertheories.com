@@ -30,6 +30,7 @@ previousrun: _data/previousrun.yml
 # Build settings
 markdown: Pandoc
 mainfont: Times New Roman
+monofont: Courier New
 mathfont: TeX Gyre Termes Math # This is a clone of Times
 fontsize: 14
 pandoc:
