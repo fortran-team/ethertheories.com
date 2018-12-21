@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
+
+class AbstractPreprocess
+def main
 # Данный скрипт принимает на вход файл настроек jekyll (_config.yml) и
 # файлы глав книги sections/*md. Все эти файлы объединяются в один md-файл
 # книги по следующему принципу:
@@ -10,8 +14,6 @@
 # 3) контент файлов глав книги добавляется в итоговый md-файл книги практически
 #    без изменений. Хотя небольшое доп.форматирование допустимо в коде данного
 #    скрипта
-
-require 'yaml'
 
 @mainyamldone = false # флаг завершения обработки файла _config.yml
 @inyaml = false # флаг нахождения потока ввода в хедере md-файла или в _config.yml
@@ -133,4 +135,6 @@ ARGF.each_with_index do |line, idx| # FIXME индекс idx не использ
             print line
         end
     end
+end
+end
 end
