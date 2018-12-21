@@ -2,7 +2,7 @@
 
 require_relative 'abstract_preprocess'
 
-class EpubPreprocess < AbstractPreprocess
+class EpubMdPreprocess < AbstractPreprocess
     def print_pagebreaker_and_title_with_anchor(title, id)
         # Вставляем заголовок главы книги
         # При этом создается разрыв страницы между главами книги
@@ -16,12 +16,12 @@ class EpubPreprocess < AbstractPreprocess
     end
 
     def print_rightalign(text)
-        print "<div style='text-align: right'>" + text + "</div>\n"
+        print "<span style='display: block; text-align: right'>" + text + "</span>\n"
     end
 
     def print_divbox_begin
         # Создаем div-блок под ширину страницы epub-файла (c внутренними отступами)
-        print "<div style='text-align: right; padding: 0px 5%; border: 1px solid black;'>"
+        print "<span style='display: block; text-align: right; padding: 0px 5%; border: 1px solid black;'>"
     end
 
     def print_divbox_lastline_breaker
@@ -29,7 +29,7 @@ class EpubPreprocess < AbstractPreprocess
     end
 
     def print_divbox_end
-        print "</div>"
+        print "</span>"
     end
 
     def print_divbox_line_breaker
@@ -66,4 +66,4 @@ class EpubPreprocess < AbstractPreprocess
     end
 end
 
-EpubPreprocess.new.main
+EpubMdPreprocess.new.main
