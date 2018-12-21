@@ -197,11 +197,7 @@ one might well take it as an excerpt from a recent
 \[p.12\] 
 speech on the subject. All the principal elements 
 of the doctrine of Prohibition were present a century ago, and have not changed materially since 
-that time. 
-
-<span id="p01"></span> 
-Строка с ПОПОЙ
-These clergymen of the 1830's had a grievance 
+that time. <a id="p01"></a>Строка с ПОПОЙ These clergymen of the 1830's had a grievance 
 against the liquor industry, which their habits of 
 thought did not permit them to formulate in any 
 other way than as a demand that liquor-selling be 

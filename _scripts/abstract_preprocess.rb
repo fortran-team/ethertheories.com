@@ -114,7 +114,7 @@ class AbstractPreprocess
                     #   какой-то текст
                     #   <a id="p05"></a>
                     #   другой какой-то текст
-                    line.gsub!(/<a id=(['"])(.+?)\1><\/a>/, get_anchor_replacement)
+                    line.gsub!(/<a id=(['"])(.+?)\1><\/a>/, get_anchor_replacement(@section_yaml['id']))
 
                     print line
                 else
@@ -169,7 +169,7 @@ class AbstractPreprocess
         raise NotImplementedError
     end
 
-    def get_anchor_replacement
+    def get_anchor_replacement(id)
         raise NotImplementedError
     end
 end

@@ -1,131 +1,69 @@
 #!/usr/bin/env ruby
 
-# Данный скрипт принимает на вход файл настроек jekyll (_config.yml) и
-# файлы глав книги sections/*md. Все эти файлы объединяются в один md-файл
-# книги по следующему принципу:
-# 1) файл _config.yml становится хедером итогового md-файла
-# 2) у файлов глав книги хедеры удаляются, но данные этих хедеров применяются,
-#    чтобы создать правильное отделение глав книги в итоговом epub-файле друг
-#    от друга (например, добавление заголовков глав, разрывы страниц и т.д.)
-# 3) контент файлов глав книги добавляется в итоговый md-файл книги практически
-#    без изменений. Хотя небольшое доп.форматирование допустимо в коде данного
-#    скрипта
+require_relative 'abstract_preprocess'
 
-require 'yaml'
+class EpubPreprocess < AbstractPreprocess
+    def print_pagebreaker_and_title_with_anchor(title, id)
+        # Вставляем заголовок главы книги
+        # При этом создается разрыв страницы между главами книги
+        print "\n\n"
+        print "# " + @section_yaml['title']
+        print "\n\n"
 
-@mainyamldone = false # флаг завершения обработки файла _config.yml
-@inyaml = false # флаг нахождения потока ввода в хедере md-файла или в _config.yml
-@inbox = false # флаг нахождения потока ввода в теле md-файла, а именно в блоке <div class="box">...</div>
-@firstline_inbox = nil # флаг, обозначающий, что мы перешли к обработке первой строки в html-блоке <div class="box">...</div>
-@yaml_block = "" # данные хедера md-файла или _config.yml в виде строки текста
-@main_yaml = nil # данные хедера файла _config.yml в виде объекта YAML из пакета 'yaml'
-@section_yaml = nil # данные хедера md-файла в виде объекта YAML из пакета 'yaml'
+        # На уровне начала главы книги создаем якорь, на который
+        # можно ссылаться, например, из оглавления книги
+        print "<span id='" + @section_yaml['id'] + "'></span>"
+    end
 
-# В виду того, что на входе скрипта только файлы, то их обработку проще
-# всего делать через поток ввода ARGF, который уже объединил все эти
-# файлы в один и мы можем читать из этого потока, попутно обрабатывая
-# все строки
-ARGF.each_with_index do |line, idx| # FIXME индекс idx не используем
-    if /^---\s*$/.match(line) # вход или выход из YAML-блока в хедере md-файла или в _config.yml
-        # Печать в стандартный поток вывода строк YAML-блока из файла _config.yml (указанное условие
-        # печати позволяет не печатать строки из YAML-блоков в хедерах md-файлов глав книги)
-        print line unless @mainyamldone
-        @inyaml = !@inyaml # отмечаем вход или выход из YAML-блока
-        if @inyaml # если мы находимся в YAML-блоке, то
-            # все его строки собираем в переменной @yaml_block
-            @yaml_block = line + "\n"
-        else # если мы выходим из YAML-блока, то
-            # последнюю его строку "---" также помещаем в переменную @yaml_block
-            @yaml_block = @yaml_block + line + "\n"
-            if @main_yaml.nil? # если мы обрабатывали главный YAML-блок из файла _config.yml, то
-                @main_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект (FIXME этот объект не используем)
-                # Устанавливаем флаг в положение, сигнализирующее, что мы
-                # завершили обработку YAML-блока из файла _config.yml
-                @mainyamldone = true
-            else # если мы обрабатывали YAML-блок из хедера какого-либо md-файла главы книги, то
-                @section_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект
+    def print_rightalign(text)
+        print "<div style='text-align: right'>" + text + "</div>\n"
+    end
 
-                # Вставляем заголовок главы книги
-                # При этом создается разрыв страницы между главами книги
-                print "\n\n"
-                print "# " + @section_yaml['title']
-                print "\n\n"
+    def print_divbox_begin
+        # Создаем div-блок под ширину страницы epub-файла (c внутренними отступами)
+        print "<div style='text-align: right; padding: 0px 5%; border: 1px solid black;'>"
+    end
 
-                # На уровне начала главы книги создаем якорь, на который
-                # можно ссылаться, например, из оглавления книги
-                print "<span id='" + @section_yaml['id'] + "'></span>"
-            end
-        end
-    elsif @inyaml # если мы находимся в YAML-блоке, то
-        print line unless @mainyamldone # в поток вывода отправляем YAML-блок только из файла _config.yml
-        @yaml_block = @yaml_block + line + "\n" # но данные YAML-блока собираем в любом случае
-    else # если мы находимся в теле md-файла главы книги, то
-        # handle catalog-card boxes
-        if match = /<p class=(['"])right\1>(.*?)<\/p>/.match(line)
-            # Если встречаем такой блок разметки:
-            #   текст 1
-            #   <p class="right">текст 2</p>
-            #   текст 3
-            # то берем "текст 2" и оформляем его немного в другом формате
-            quote, text = match.captures
-            print "<div style='text-align: right'>" + text + "</div>\n"
-        elsif /<div class=(['"])box\1>/.match(line)
-            # Если встречаем такой блок разметки:
-            #   текст 1
-            #   <div class="box">
-            #       текст 2
-            #   </div>
-            #   текст 3
-            # то берем "текст 2" и оформляем его немного в другом формате
-            @inbox = true # отмечаем, что мы вошли в <div class="box"> и со следующей строки пойдет "текст 2"
-            # Создаем div-блок под ширину страницы epub-файла (c внутренними отступами)
-            print "<div style='text-align: right; padding: 0px 5%; border: 1px solid black;'>"
-            print "\n"
-            @firstline_inbox = true
-        elsif /<\/div>/.match(line) && @inbox
-            @inbox = false # отмечаем, что мы вышли из <div class="box">...</div>
-            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                # Завершаем последнюю строку текста переводом строки
-                print "\n"
-            end
-            # Закрываем div-блок
-            print "</div>"
-            print "\n"
-        elsif @inbox # обработка текста в html-блоке <div class="box">...</div>
-            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                # Завершаем предыдущую строку текста символом <br> и переводом строки
-                print "<br/>"
-                print "\n"
-            end
-            # Выводим строки html-блока <div class="box">...</div>,
-            # обрезая символ перевода строки в конце и пробелы в начале
-            line.strip!
-            # Нужно помнить, что открывающую и закрывающую звездочки для обозначения нашего желания подчеркнуть
-            # текст в генерируемом epub-документе надо ставить в одной строке текста md-файла главы книги
-            print line.gsub(/\*(.+?)\*/, "<span style='text-decoration: underline'>\\1</span>")
-            @firstline_inbox = false
-        elsif !@section_yaml.nil?
-            # Делаем преобразование ссылок из многостраничного формата в одностраничный формат
-            # Должно работать и для нескольких ссылок в одной строке
-            # 1) Тут описано преобразование ссылок на начало глав книги (например, из оглавления):
-            #    [text](1-bla-bla-chapter-c01.html) -> [text](#c01)
-            # 2) Тут описано преобразование ссылок внутрь глав книги:
-            #    [text](1-bla-bla-chapter-c01.html#p05) -> [text](#c01p05)
-            line.gsub!(/\[([^\]]*?)\]\(.*?chapter-(.+?)\.html(?:#(.+?))?\)/, "[\\1](#\\2\\3)")
+    def print_divbox_lastline_breaker
+        # Ничего не пишем, т.к. перевода строки достаточно
+    end
 
-            # Делаем преобразование разметки с якорем для ссылок из многостраничного формата в одностраничный формат:
-            # <span id="p05"></span> -> <span id="c01p05"></span>
-            # Должно работать и для нескольких якорей в одной строке, но лучше будем делать так:
-            #   какой-то текст
-            #   <span id="p05"></span>
-            #   другой какой-то текст
-            line.gsub!(/<span id=(['"])(.+?)\1><\/span>/, "<span id='" + @section_yaml['id'] + "\\2'></span>")
+    def print_divbox_end
+        print "</div>"
+    end
 
-            print line
-        else
-            # Сюда попасть можем только сразу после обработки полей из файла _config.yml и только если
-            # в этом файле под набором полей после закрывающей строки "---" будет какое-то содержимое
-            print line
-        end
+    def print_divbox_line_breaker
+        print "<br/>"
+    end
+
+    def preprocess_divbox!(line)
+        # обрезаем символ перевода строки в конце и все пробелы в начале строки
+        line.strip!
+    end
+
+    def get_underline_replacement
+        "<span style='text-decoration: underline'>\\1</span>"
+    end
+
+    def postprocess_divbox!(line)
+        # Ничего не делаем
+    end
+
+    def get_hyperlink_replacement
+        # Преобразование ссылок из многостраничного формата в одностраничный формат
+        # Примеры:
+        # 1) преобразование ссылки на начало главы книги (например, из оглавления):
+        #    [text](1-bla-bla-chapter-c01.html) -> [text](#c01)
+        # 2) преобразование ссылки внутрь главы книги:
+        #    [text](1-bla-bla-chapter-c01.html#p05) -> [text](#c01p05)
+        "[\\1](#\\2\\3)"
+    end
+
+    def get_anchor_replacement(id)
+        # Преобразование разметки с якорем для ссылок из многостраничного формата в одностраничный формат:
+        # <a id="p05"></a> -> <span id="c01p05"></span>
+        "<span id='" + id + "\\2'></span>"
     end
 end
+
+EpubPreprocess.new.main

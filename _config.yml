@@ -1,7 +1,7 @@
 ---
 # Site settings
-title: "Responsible Drinking (_config.yml: title)"
-brand: "Responsible Drinking (_config.yml: brand)"
+title: Responsible Drinking Title
+brand: Responsible Drinking Brand
 subtitle: A Discreet Inquiry and a Modest Proposal
 author: Robert C. Binkley
 publisher: Vanguard Press
@@ -62,10 +62,10 @@ plugins:
 
 downloads:
     pdf:
-      deps: ["_config.yml","_latex/jekyll-book.latex","_scripts/preprocess_pdf.rb",*cover_image]
+      deps: ["_config.yml","_latex/jekyll-book.latex","_scripts/preprocess_pdf.rb","_scripts/abstract_preprocess.rb",*cover_image]
       command: "ruby _scripts/preprocess_pdf.rb _config.yml sections/*.md | pandoc --pdf-engine=xelatex --template=_latex/jekyll-book.latex -o %{dirDownloads}/%{slug}.pdf"
     epub:
-      deps: ["_config.yml","_scripts/preprocess_epub.rb",*cover_image]
+      deps: ["_config.yml","_scripts/preprocess_epub.rb","_scripts/abstract_preprocess.rb",*cover_image]
       command: "ruby _scripts/preprocess_epub.rb _config.yml sections/*.md | pandoc -t epub2 --webtex --epub-cover-image=%{coverImage} -o %{dirDownloads}/%{slug}.epub"
     txt:
       deps: ["_config.yml"]

@@ -1,136 +1,76 @@
 #!/usr/bin/env ruby
 
-# Данный скрипт принимает на вход файл настроек jekyll (_config.yml) и
-# файлы глав книги sections/*md. Все эти файлы объединяются в один md-файл
-# книги по следующему принципу:
-# 1) файл _config.yml становится хедером итогового md-файла
-# 2) у файлов глав книги хедеры удаляются, но данные этих хедеров применяются,
-#    чтобы создать правильное отделение глав книги в итоговом PDF-файле друг
-#    от друга (например, добавление заголовков глав, разрывы страниц и т.д.)
-# 3) контент файлов глав книги добавляется в итоговый md-файл книги практически
-#    без изменений. Хотя небольшое доп.форматирование допустимо в коде данного
-#    скрипта
+require_relative 'abstract_preprocess'
 
-require 'yaml'
+class PdfPreprocess < AbstractPreprocess
+    def print_pagebreaker_and_title_with_anchor(title, id)
+        print "\n\n"
+        print "\\newpage" # создаем разрыв страницы между главами книги (latex-формат)
+        print "\n"
+        # На уровне начала главы книги создаем якорь, на который можно
+        # ссылаться, например, из оглавления книги (latex-формат)
+        print "\\hypertarget{" + @section_yaml['id'] + "}{}"
+        print "\n\n"
+        # Вставляем заголовок главы книги
+        print "# " + @section_yaml['title'] + "\n"
+    end
 
-@mainyamldone = false # флаг завершения обработки файла _config.yml
-@inyaml = false # флаг нахождения потока ввода в хедере md-файла или в _config.yml
-@inbox = false # флаг нахождения потока ввода в теле md-файла, а именно в блоке <div class="box">...</div>
-@firstline_inbox = nil # флаг, обозначающий, что мы перешли к обработке первой строки в html-блоке <div class="box">...</div>
-@yaml_block = "" # данные хедера md-файла или _config.yml в виде строки текста
-@main_yaml = nil # данные хедера файла _config.yml в виде объекта YAML из пакета 'yaml'
-@section_yaml = nil # данные хедера md-файла в виде объекта YAML из пакета 'yaml'
+    def print_rightalign(text)
+        print "\\rightline{\\texttt{" + text + "}}\n"
+    end
 
-# В виду того, что на входе скрипта только файлы, то их обработку проще
-# всего делать через поток ввода ARGF, который уже объединил все эти
-# файлы в один и мы можем читать из этого потока, попутно обрабатывая
-# все строки
-ARGF.each_with_index do |line, idx| # FIXME индекс idx не используем
-    if /^---\s*$/.match(line) # вход или выход из YAML-блока в хедере md-файла или в _config.yml
-        # Печать в стандартный поток вывода строк YAML-блока из файла _config.yml (указанное условие
-        # печати позволяет не печатать строки из YAML-блоков в хедерах md-файлов глав книги)
-        print line unless @mainyamldone
-        @inyaml = !@inyaml # отмечаем вход или выход из YAML-блока
-        if @inyaml # если мы находимся в YAML-блоке, то
-            # все его строки собираем в переменной @yaml_block
-            @yaml_block = line + "\n"
-        else # если мы выходим из YAML-блока, то
-            # последнюю его строку "---" также помещаем в переменную @yaml_block
-            @yaml_block = @yaml_block + line + "\n"
-            if @main_yaml.nil? # если мы обрабатывали главный YAML-блок из файла _config.yml, то
-                @main_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект (FIXME этот объект не используем)
-                # Устанавливаем флаг в положение, сигнализирующее, что мы
-                # завершили обработку YAML-блока из файла _config.yml
-                @mainyamldone = true
-            else # если мы обрабатывали YAML-блок из хедера какого-либо md-файла главы книги, то
-                @section_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект
-                print "\n\n"
-                print "\\newpage" # создаем разрыв страницы между главами книги (latex-формат)
-                print "\n"
-                # На уровне начала главы книги создаем якорь, на который можно
-                # ссылаться, например, из оглавления книги (latex-формат)
-                print "\\hypertarget{" + @section_yaml['id'] + "}{}"
-                print "\n\n"
-                # Вставляем заголовок главы книги
-                print "# " + @section_yaml['title'] + "\n"
-            end
-        end
-    elsif @inyaml # если мы находимся в YAML-блоке, то
-        print line unless @mainyamldone # в поток вывода отправляем YAML-блок только из файла _config.yml
-        @yaml_block = @yaml_block + line + "\n" # но данные YAML-блока собираем в любом случае
-    else # если мы находимся в теле md-файла главы книги, то
-        # handle catalog-card boxes
-        if match = /<p class=(['"])right\1>(.*?)<\/p>/.match(line)
-            # Если встречаем такой блок разметки:
-            #   текст 1
-            #   <p class="right">текст 2</p>
-            #   текст 3
-            # то берем "текст 2" и оформляем его в latex-формате
-            quote, text = match.captures
-            print "\\rightline{\\texttt{" + text + "}}\n"
-        elsif /<div class=(['"])box\1>/.match(line)
-            # Если встречаем такой блок разметки:
-            #   текст 1
-            #   <div class="box">
-            #       текст 2
-            #   </div>
-            #   текст 3
-            # то берем "текст 2" и оформляем его в latex-формате
-            @inbox = true # отмечаем, что мы вошли в <div class="box"> и со следующей строки пойдет "текст 2"
-            # Создаем отступы слева, справа, сверху и снизу для minipage, который описан ниже
-            print "\\setlength{\\fboxsep}{0.05\\textwidth}"
-            print "\n"
-            # Создаем minipage под ширину страницы PDF-файла (с учетом отступов выше)
-            print "\\fbox{\\begin{minipage}{0.9\\textwidth}"
-            print "\n"
-            @firstline_inbox = true
-        elsif /<\/div>/.match(line) && @inbox
-            @inbox = false # отмечаем, что мы вышли из <div class="box">...</div>
-            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                # Закрываем последний текстовый latex-блок
-                print "}"
-                print "\n"
-            end
-            # Закрываем minipage
-            print "\\end{minipage}}"
-            print "\n"
-        elsif @inbox # обработка текста в html-блоке <div class="box">...</div>
-            unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                # Закрываем предыдущий текстовый latex-блок
-                print "\\\\}" # \\\\ - попадет в latex как \\, что является для latex синонимом \n (перевод строки)
-                print "\n"
-            end
-            # Преобразуем строки html-блока <div class="box">...</div> в latex-строки \texttt
-            print "\\texttt{"
-            # Текст в виде *текст* делаем подчеркнутым
-            # Нужно помнить, что открывающую и закрывающую звездочки для обозначения нашего желания подчеркнуть
-            # текст в генерируемом pdf-документе надо делать на одной строке текста в md-файле главы книги
-            line.gsub!(/\*(.+?)\*/, "\\underline{\\1}")
-            # Пробелы в начале строки заменяем на latex-отступ для смещения текста к правому краю minipage-а
-            print line.sub(/^( )*/, "\\hspace*{\\fill}")
-            @firstline_inbox = false
-        elsif !@section_yaml.nil?
-            # Делаем преобразование ссылок из md-формата в latex-формат
-            # Должно работать и для нескольких ссылок в одной строке
-            # 1) Тут описано преобразование ссылок на начало глав книги (например, из оглавления):
-            #    [text](1-bla-bla-chapter-c01.html) -> \hyperlink{c01}{text}
-            # 2) Тут описано преобразование ссылок внутрь глав книги:
-            #    [text](1-bla-bla-chapter-c01.html#p05) -> \hyperlink{c01p05}{text}
-            line.gsub!(/\[([^\]]*?)\]\(.*?chapter-(.+?)\.html(?:#(.+?))?\)/, "\\hyperlink{\\2\\3}{\\1}")
+    def print_divbox_begin
+        # Создаем отступы слева, справа, сверху и снизу для minipage, который описан ниже
+        print "\\setlength{\\fboxsep}{0.05\\textwidth}"
+        print "\n"
+        # Создаем minipage под ширину страницы PDF-файла (с учетом отступов выше)
+        print "\\fbox{\\begin{minipage}{0.9\\textwidth}"
+    end
 
-            # Делаем преобразование разметки с якорем для ссылок из html-формата в latex-формат:
-            # <span id="p05"></span> -> \hypertarget{c01p05}{}
-            # Должно работать и для нескольких якорей в одной строке, но лучше будем делать так:
-            #   какой-то текст
-            #   <span id="p05"></span>
-            #   другой какой-то текст
-            line.gsub!(/<span id=(['"])(.+?)\1><\/span>/, "\\hypertarget{" + @section_yaml['id'] + "\\2}{}")
+    def print_divbox_lastline_breaker
+        print "}"
+    end
 
-            print line
-        else
-            # Сюда попасть можем только сразу после обработки полей из файла _config.yml и только если
-            # в этом файле под набором полей после закрывающей строки "---" будет какое-то содержимое
-            print line
-        end
+    def print_divbox_end
+        # Закрываем minipage
+        print "\\end{minipage}}"
+    end
+
+    def print_divbox_line_breaker
+        print "\\\\}" # \\\\ - попадет в latex как \\, что является для latex синонимом \n (перевод строки)
+    end
+
+    def preprocess_divbox!(line)
+        # Удаляем символ \n в конце строки
+        line.rstrip!
+        # Преобразуем строки html-блока <div class="box">...</div> в latex-строки \texttt
+        print "\\texttt{"
+    end
+
+    def get_underline_replacement
+        "\\underline{\\1}"
+    end
+
+    def postprocess_divbox!(line)
+        # Пробелы в начале строки заменяем на latex-отступ для смещения текста к правому краю minipage-а
+        line.sub!(/^( )*/, "\\hspace*{\\fill}")
+    end
+
+    def get_hyperlink_replacement
+        # Преобразование ссылок из md-формата в latex-формат
+        # Примеры:
+        # 1) преобразование ссылки на начало главы книги (например, из оглавления):
+        #    [text](1-bla-bla-chapter-c01.html) -> \hyperlink{c01}{text}
+        # 2) преобразование ссылки внутрь главы книги:
+        #    [text](1-bla-bla-chapter-c01.html#p05) -> \hyperlink{c01p05}{text}
+        "\\hyperlink{\\2\\3}{\\1}"
+    end
+
+    def get_anchor_replacement(id)
+        # Преобразование разметки с якорем для ссылок из md-формата в latex-формат:
+        # <a id="p05"></a> -> \hypertarget{c01p05}{}
+        "\\hypertarget{" + id + "\\2}{}"
     end
 end
+
+PdfPreprocess.new.main
