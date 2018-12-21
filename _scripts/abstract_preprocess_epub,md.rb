@@ -2,7 +2,7 @@
 
 require_relative 'abstract_preprocess'
 
-class EpubMdPreprocess < AbstractPreprocess
+class AbstractEpubMdPreprocess < AbstractPreprocess
     def print_pagebreaker_and_title_with_anchor(title, id)
         # Вставляем заголовок главы книги
         # При этом создается разрыв страницы между главами книги
@@ -65,5 +65,3 @@ class EpubMdPreprocess < AbstractPreprocess
         "<span id='" + id + "\\2'></span>"
     end
 end
-
-EpubMdPreprocess.new.main

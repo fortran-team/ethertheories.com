@@ -40,7 +40,9 @@ class AbstractPreprocess
                     # последнюю его строку "---" также помещаем в переменную @yaml_block
                     @yaml_block = @yaml_block + line + "\n"
                     if @main_yaml.nil? # если мы обрабатывали главный YAML-блок из файла _config.yml, то
-                        @main_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект (FIXME этот объект не используем)
+                        @main_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект
+                        # Печать обложки и титульной страницы, если в этом есть необходимость
+                        print_cover_and_title_pages(@main_yaml)
                         # Устанавливаем флаг в положение, сигнализирующее, что мы
                         # завершили обработку YAML-блока из файла _config.yml
                         @mainyamldone = true
@@ -171,5 +173,10 @@ class AbstractPreprocess
 
     def get_anchor_replacement(id)
         raise NotImplementedError
+    end
+
+    def print_cover_and_title_pages(main_yaml)
+        # По умолчанию:
+        #   Не требуется никаких действий, т.к. pandoc сам вставит обложку и создаст титульную страницу
     end
 end
