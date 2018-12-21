@@ -9,7 +9,7 @@ class AbstractPreprocess
         # книги по следующему принципу:
         # 1) файл _config.yml становится хедером итогового md-файла
         # 2) у файлов глав книги хедеры удаляются, но данные этих хедеров применяются,
-        #    чтобы создать правильное отделение глав книги в итоговом PDF-файле друг
+        #    чтобы создать правильное отделение глав книги в итоговом документе друг
         #    от друга (например, добавление заголовков глав, разрывы страниц и т.д.)
         # 3) контент файлов глав книги добавляется в итоговый md-файл книги практически
         #    без изменений. Хотя небольшое доп.форматирование допустимо в коде данного
@@ -17,11 +17,11 @@ class AbstractPreprocess
 
         @mainyamldone = false # флаг завершения обработки файла _config.yml
         @inyaml = false # флаг нахождения потока ввода в хедере md-файла или в _config.yml
-        @inbox = false # флаг нахождения потока ввода в теле md-файла, а именно в блоке <div class="box">...</div>
-        @firstline_inbox = nil # флаг, обозначающий, что мы перешли к обработке первой строки в html-блоке <div class="box">...</div>
+        @inbox = false # флаг нахождения потока ввода в теле md-файла, а точнее в блоке <div class="box">...</div>
+        @firstline_inbox = nil # флаг, обозначающий, что мы перешли к обработке первой строки текста в html-блоке <div class="box">...</div>
         @yaml_block = "" # данные хедера md-файла или _config.yml в виде строки текста
-        @main_yaml = nil # данные хедера файла _config.yml в виде объекта YAML из пакета 'yaml'
-        @section_yaml = nil # данные хедера md-файла в виде объекта YAML из пакета 'yaml'
+        @main_yaml = nil # данные хедера файла _config.yml в виде объекта YAML (см. модуль 'yaml')
+        @section_yaml = nil # данные хедера md-файла в виде объекта YAML (см. модуль 'yaml')
 
         # В виду того, что на входе скрипта только файлы, то их обработку проще
         # всего делать через поток ввода ARGF, который уже объединил все эти
@@ -46,15 +46,7 @@ class AbstractPreprocess
                         @mainyamldone = true
                     else # если мы обрабатывали YAML-блок из хедера какого-либо md-файла главы книги, то
                         @section_yaml = YAML.load(@yaml_block) # превращаем эти данные в объект
-                        print "\n\n"
-                        print "\\newpage" # создаем разрыв страницы между главами книги (latex-формат)
-                        print "\n"
-                        # На уровне начала главы книги создаем якорь, на который можно
-                        # ссылаться, например, из оглавления книги (latex-формат)
-                        print "\\hypertarget{" + @section_yaml['id'] + "}{}"
-                        print "\n\n"
-                        # Вставляем заголовок главы книги
-                        print "# " + @section_yaml['title'] + "\n"
+                        print_pagebreaker_and_title_with_anchor(@section_yaml['title'], @section_yaml['id'])
                     end
                 end
             elsif @inyaml # если мы находимся в YAML-блоке, то
@@ -67,9 +59,9 @@ class AbstractPreprocess
                     #   текст 1
                     #   <p class="right">текст 2</p>
                     #   текст 3
-                    # то берем "текст 2" и оформляем его в latex-формате
+                    # то берем "текст 2" и оформляем его в другом формате
                     quote, text = match.captures
-                    print "\\rightline{\\texttt{" + text + "}}\n"
+                    print_rightalign(text)
                 elsif /<div class=(['"])box\1>/.match(line)
                     # Если встречаем такой блок разметки:
                     #   текст 1
@@ -77,56 +69,52 @@ class AbstractPreprocess
                     #       текст 2
                     #   </div>
                     #   текст 3
-                    # то берем "текст 2" и оформляем его в latex-формате
+                    # то берем "текст 2" и оформляем его в другом формате
                     @inbox = true # отмечаем, что мы вошли в <div class="box"> и со следующей строки пойдет "текст 2"
-                    # Создаем отступы слева, справа, сверху и снизу для minipage, который описан ниже
-                    print "\\setlength{\\fboxsep}{0.05\\textwidth}"
-                    print "\n"
-                    # Создаем minipage под ширину страницы PDF-файла (с учетом отступов выше)
-                    print "\\fbox{\\begin{minipage}{0.9\\textwidth}"
+                    # Создаем блок с рамкой под ширину страницы документа (c внутренними отступами)
+                    print_divbox_begin
                     print "\n"
                     @firstline_inbox = true
                 elsif /<\/div>/.match(line) && @inbox
                     @inbox = false # отмечаем, что мы вышли из <div class="box">...</div>
                     unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                        # Закрываем последний текстовый latex-блок
-                        print "}"
+                        # Завершаем последнюю строку текста
+                        print_divbox_lastline_breaker
                         print "\n"
                     end
-                    # Закрываем minipage
-                    print "\\end{minipage}}"
+                    # Завершаем div-box-блок
+                    print_divbox_end
                     print "\n"
                 elsif @inbox # обработка текста в html-блоке <div class="box">...</div>
                     unless @firstline_inbox # если обрабатываем не первую строку текста в html-блоке <div class="box">...</div>, то
-                        # Закрываем предыдущий текстовый latex-блок
-                        print "\\\\}" # \\\\ - попадет в latex как \\, что является для latex синонимом \n (перевод строки)
+                        # Завершаем предыдущую строку текста
+                        print_divbox_line_breaker
                         print "\n"
                     end
-                    # Преобразуем строки html-блока <div class="box">...</div> в latex-строки \texttt
-                    print "\\texttt{"
+                    preprocess_divbox!(line)
                     # Текст в виде *текст* делаем подчеркнутым
                     # Нужно помнить, что открывающую и закрывающую звездочки для обозначения нашего желания подчеркнуть
-                    # текст в генерируемом pdf-документе надо делать на одной строке текста в md-файле главы книги
-                    line.gsub!(/\*(.+?)\*/, "\\underline{\\1}")
-                    # Пробелы в начале строки заменяем на latex-отступ для смещения текста к правому краю minipage-а
-                    print line.sub(/^( )*/, "\\hspace*{\\fill}")
+                    # текст в генерируемом документе надо ставить в одной и той же строке текста md-файла главы книги
+                    line.gsub!(/\*(.+?)\*/, get_underline_replacement)
+                    postprocess_divbox!(line)
+                    print line # выводим текстовую строку из html-блока <div class="box">...</div> после ее обработки
                     @firstline_inbox = false
                 elsif !@section_yaml.nil?
-                    # Делаем преобразование ссылок из md-формата в latex-формат
+                    # Делаем преобразование ссылок из многостраничного md-формата в другой формат
                     # Должно работать и для нескольких ссылок в одной строке
                     # 1) Тут описано преобразование ссылок на начало глав книги (например, из оглавления):
-                    #    [text](1-bla-bla-chapter-c01.html) -> \hyperlink{c01}{text}
+                    #    [text](1-bla-bla-chapter-c01.html) -> see get_hyperlink_replacement
                     # 2) Тут описано преобразование ссылок внутрь глав книги:
-                    #    [text](1-bla-bla-chapter-c01.html#p05) -> \hyperlink{c01p05}{text}
-                    line.gsub!(/\[([^\]]*?)\]\(.*?chapter-(.+?)\.html(?:#(.+?))?\)/, "\\hyperlink{\\2\\3}{\\1}")
+                    #    [text](1-bla-bla-chapter-c01.html#p05) -> see get_hyperlink_replacement
+                    line.gsub!(/\[([^\]]*?)\]\(.*?chapter-(.+?)\.html(?:#(.+?))?\)/, get_hyperlink_replacement)
 
-                    # Делаем преобразование разметки с якорем для ссылок из html-формата в latex-формат:
-                    # <span id="p05"></span> -> \hypertarget{c01p05}{}
+                    # Делаем преобразование разметки с якорем для ссылок из многостраничного md-формата в другой формат:
+                    # <a id="p05"></a> -> see get_anchor_replacement
                     # Должно работать и для нескольких якорей в одной строке, но лучше будем делать так:
                     #   какой-то текст
-                    #   <span id="p05"></span>
+                    #   <a id="p05"></a>
                     #   другой какой-то текст
-                    line.gsub!(/<span id=(['"])(.+?)\1><\/span>/, "\\hypertarget{" + @section_yaml['id'] + "\\2}{}")
+                    line.gsub!(/<a id=(['"])(.+?)\1><\/a>/, get_anchor_replacement)
 
                     print line
                 else
@@ -136,5 +124,52 @@ class AbstractPreprocess
                 end
             end
         end
+    end
+
+    private
+    # Ниже идут методы, которые нужно будет реализовать в дочерних классах согласно паттерну "шаблонный метод"
+
+    def print_pagebreaker_and_title_with_anchor(title, id)
+        raise NotImplementedError
+    end
+
+    def print_rightalign(text)
+        raise NotImplementedError
+    end
+
+    def print_divbox_begin
+        raise NotImplementedError
+    end
+
+    def print_divbox_lastline_breaker
+        raise NotImplementedError
+    end
+
+    def print_divbox_end
+        raise NotImplementedError
+    end
+
+    def print_divbox_line_breaker
+        raise NotImplementedError
+    end
+
+    def preprocess_divbox!(line)
+        raise NotImplementedError
+    end
+
+    def get_underline_replacement
+        raise NotImplementedError
+    end
+
+    def postprocess_divbox!(line)
+        raise NotImplementedError
+    end
+
+    def get_hyperlink_replacement
+        raise NotImplementedError
+    end
+
+    def get_anchor_replacement
+        raise NotImplementedError
     end
 end
