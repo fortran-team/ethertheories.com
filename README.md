@@ -21,7 +21,7 @@ An example project: [Github repo](https://github.com/pbinkley/jekyll-book-marria
 В процессе установки ставьте и `MSYS2` тоже (нужно отметить галочкой), а по завершении установки,
 прежде чем нажать кнопку `Finish`, нужно отметить еще галочку: `Run 'ridk install' ...`,
 чтобы установить `Ruby` по максимум. Если этого не сделать, то при запуске `jekyll` все равно
-запросят выполнить команду `ridk install`, поэтому это обязательное условие.
+запросят выполнить команду `ridk install`, поэтому это обязательное условие
 - Устанавливаем `Ruby Bundler` в консоли (`gem install bundler`)
 - Устанавливаем [Python 2.7.15](https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi) (требуется 2.x)<br/>
 Потребуется для устанвки программы через `bundle install`, т.к. некоторые `gem`-ы собираются
@@ -46,7 +46,10 @@ An example project: [Github repo](https://github.com/pbinkley/jekyll-book-marria
   `MikTex` обновить свою БД и обнаружить эти плагины. Это делается через ту же программу `MikTex Console`,
   где нужно зайти в меню `Tasks` и там нажать `Refresh file name database`
   - последнее, что хочется добавить - это компилирование sty-файлов плагинов `MikTex` из исходников в 
-  файлах *.ins и *.dtx. Это процесс подробно описан в моем [Gist](https://gist.github.com/professor-fortran/d41b02eac31573f8628d615d31b92148)
+  файлах *.ins и *.dtx. Это процесс подробно описан в моем [Gist](https://gist.github.com/professor-fortran/d41b02eac31573f8628d615d31b92148).<br/>
+  Однако все необходимые [`MikTex` плагины](https://github.com/fortran-team/ethertheories.com/tree/master/_latex/_misc/_TEXMF) уже скомпилированы,
+  поэтому вам этого делать не нужно. Здесь это написано лишь на случай, если вы будете дорабатывать программу и понадобятся другие
+  плагины, которые у меня не использовались
 - Клонируйте этот репозиторий
 - В директории репозитория запустите команду<br/>
     `bundle install`,<br/>
@@ -54,7 +57,7 @@ An example project: [Github repo](https://github.com/pbinkley/jekyll-book-marria
 - Запустите программу командой<br/>
     `jekyll serve`
 - Сайт запустится на вашей локальной машине по адресу<br/>
-    [http://127.0.0.1:4000/ethertheories.com](http://127.0.0.1:4000/ethertheories.com)
+    [http://127.0.0.1:4000/ethertheories.com/](http://127.0.0.1:4000/ethertheories.com/)
 
 ## Customization
 
