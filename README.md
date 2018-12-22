@@ -7,14 +7,54 @@ site with minimal [Bootstrap](http://getbootstrap.com/). Jekyll-Book extends it 
 
 An example project: [Github repo](https://github.com/pbinkley/jekyll-book-marriage); [public site](https://www.wallandbinkley.com/rcb/works/marriage/)
 
-## Installation
+## Установка программы jekyll-book
 
-- Install Ruby (requires 2.0 or later)
-- [Install Pandoc](http://pandoc.org/installing.html) (with LaTeX support)
-- Clone this repository
-- In the repository directory, run ```bundle install``` to install the necessary gems
-- Run ```jekyll s``` to start the server
-- Visit the demo site at [http://127.0.0.1:4000/path/to/work/](http://127.0.0.1:4000/path/to/work/)
+Ниже описан процесс установки на Windows, но я старался все сделать так,
+чтобы в Linux тоже работало. Однако все ссылки на скачивание доп. программ
+будут даны именно под систему Windows. Работоспособность проверялась на Windows 10.
+Кроме того, все доп. программы качались в 32-битном издании, несмотря на 64-битную
+систему (это магия Windows 10... Не смейтесь и не спрашивайте;)...).
+
+Итак приступим:
+- Необходимо скачать и установить `Ruby` (требуется 2.0+). 
+Я у себя ставил [Ruby Installer Devkit 2.5.3-1](https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.5.3-1/rubyinstaller-devkit-2.5.3-1-x86.exe)<br/>
+В процессе установки ставьте и `MSYS2` тоже (нужно отметить галочкой), а по завершении установки,
+прежде чем нажать кнопку `Finish`, нужно отметить еще галочку: `Run 'ridk install' ...`,
+чтобы установить `Ruby` по максимум. Если этого не сделать, то при запуске `jekyll` все равно
+запросят выполнить команду `ridk install`, поэтому это обязательное условие.
+- Устанавливаем `Ruby Bundler` в консоли (`gem install bundler`)
+- Устанавливаем [Python 2.7.15](https://www.python.org/ftp/python/2.7.15/python-2.7.15.msi) (требуется 2.x)<br/>
+Потребуется для устанвки программы через `bundle install`, т.к. некоторые `gem`-ы собираются
+при помощи `Python`-а (вопрос почему они не собираются через `Ruby` для меня открыт, но факт остается фактом)
+- Устанавливаем [Pandoc 2.5](https://github.com/jgm/pandoc/releases/download/2.5/pandoc-2.5-windows-i386.msi)<br/>
+Потребуется для генерации книги в различных форматах из md-формата,
+а также для генерации сайта `jekyll`-ом из того же md-формата
+(для этого чаще всего используется `kramdown` (т.к. он целиком написан на `Ruby`),
+но я буду использовать `Pandoc`, т.к. он поддерживает более богатый набор выходных форматов)
+- Устанавливаем [MikTex 2.9](https://mirror.datacenter.by/pub/mirrors/CTAN/systems/win32/miktex/setup/windows-x86/basic-miktex-2.9.6850.exe)<br/>
+Потребуется `Pandoc`-у для генерации PDF документов через latex-шаблон
+- Для полноценной работы нашей программы с `MikTex` нужно установить для него ряд шрифтов и плагинов:
+  - установить в ОС шрифт, который является клоном `Times` и умеет работать с математическими спец. символами
+  [texgyretermes-math.otf](https://github.com/fortran-team/ethertheories.com/tree/master/_latex/_misc/_fonts)
+  - положить все необходимые [`MikTex` плагины](https://github.com/fortran-team/ethertheories.com/tree/master/_latex/_misc/_TEXMF) в его папку `%TEXMF%`.
+  Чтобы найти эту папку нужно запустить программу `MikTex Console`, там выбрать раздел `Settings`,
+  далее перейти на вкладку `Directories` и изучить табличку с папками `MikTex`. Нам нужна строка
+  таблицы, где в поле `Purposes` написано слово `Config`. Для этой строки смотрим поле `Path` таблицы.
+  Там будет написан путь к папке, которая условно называется `%TEXMF%`. В моем случае этот путь был
+  следующим: `C:\Users\%имя_пользователя%\AppData\Roaming\MiKTeX\2.9`
+  - после того, как все нужные файлы попали в папку `%TEXMF%` нужно дать команду
+  `MikTex` обновить свою БД и обнаружить эти плагины. Это делается через ту же программу `MikTex Console`,
+  где нужно зайти в меню `Tasks` и там нажать `Refresh file name database`
+  - последнее, что хочется добавить - это компилирование sty-файлов плагинов `MikTex` из исходников в 
+  файлах *.ins и *.dtx. Это процесс подробно описан в моем [Gist](https://gist.github.com/professor-fortran/d41b02eac31573f8628d615d31b92148)
+- Клонируйте этот репозиторий
+- В директории репозитория запустите команду<br/>
+    `bundle install`,<br/>
+  чтобы поставить все нужные для работы `gem`-ы
+- Запустите программу командой<br/>
+    `jekyll serve`
+- Сайт запустится на вашей локальной машине по адресу<br/>
+    [http://127.0.0.1:4000/ethertheories.com](http://127.0.0.1:4000/ethertheories.com)
 
 ## Customization
 
