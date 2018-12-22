@@ -1,0 +1,2 @@
+* linguist-vendored
+*.rb *.latex linguist-vendored=false
