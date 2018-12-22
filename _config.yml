@@ -68,8 +68,8 @@ downloads:
       deps: ["_config.yml","_scripts/preprocess_epub.rb","_scripts/abstract_preprocess_epub,md.rb","_scripts/abstract_preprocess.rb",*cover_image]
       command: "ruby _scripts/preprocess_epub.rb _config.yml sections/*.md | pandoc -t epub2 --webtex --epub-cover-image=%{coverImage} -o %{dirDownloads}/%{slug}.epub"
     txt:
-      deps: ["_config.yml"]
-      command: "cat sections/*.md | pandoc -t plain -o %{dirDownloads}/%{slug}.txt"
+      deps: ["_config.yml","_scripts/preprocess_txt.rb","_scripts/abstract_preprocess.rb"]
+      command: "ruby _scripts/preprocess_txt.rb _config.yml sections/*.md | pandoc -t plain -o %{dirDownloads}/%{slug}.txt"
     md:
       deps: ["_config.yml","_scripts/preprocess_md.rb","_scripts/abstract_preprocess_epub,md.rb","_scripts/abstract_preprocess.rb"]
       command: "ruby _scripts/preprocess_md.rb _config.yml sections/*.md | pandoc -t markdown_strict -o %{dirDownloads}/%{slug}.md"
