@@ -22,18 +22,15 @@ http://10consulting.com/2013/03/06/jekyll-and-lunr-js-static-websites-with-power
             </form>
         </div>
 
-        <section id="search-results" style="display: none;">
-            <h3>Search results</h3>
-            <div class="entries">
-            </div>
-        </section>
+        <ol id="search-results" style="display: none;">
+        </ol>
 
         {% raw %}
         <script id="search-results-template" type="text/mustache">
 			{{#entries}}
-			<article>
+			<li>
                 <a href="{% endraw %}{{site.baseurl}}{% raw %}{{url}}">{{title}}</a>
-			</article>
+			</li>
 			{{/entries}}
         </script>
         {% endraw %}
@@ -45,7 +42,6 @@ http://10consulting.com/2013/03/06/jekyll-and-lunr-js-static-websites-with-power
                 $('#search-query').lunrSearch({
                     indexUrl: '{{ site.baseurl }}/js/index.json', // URL of the `index.json` index data for your site
                     results:  '#search-results',                  // jQuery selector for the search results container
-                    entries:  '.entries',                         // jQuery selector for the element to contain the results list, must be a child of the results element above.
                     template: '#search-results-template'          // jQuery selector for the Mustache.js template
                 });
             });

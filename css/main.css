@@ -151,3 +151,11 @@ div.cover img {
     font-weight: bold;
     margin-bottom: 30px;
 }
+
+ol#search-results {
+    padding-left: 0;
+}
+
+ol#search-results li {
+    margin-left: 30px;
+}
