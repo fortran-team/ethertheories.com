@@ -57,7 +57,7 @@ navigation:
 plugins:
   - jekyll-sitemap
   - octopress-debugger
-  - jekyll-lunr-js-search
+  - jekyll-lunr-js-search-multilingual
   - jekyll-pandoc
 
 downloads:

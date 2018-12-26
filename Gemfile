@@ -4,7 +4,7 @@ gem 'jekyll', '~> 3'
 group :jekyll_plugins do
   gem 'octopress-debugger'
   gem 'jekyll-sitemap'
-  gem 'jekyll-lunr-js-search', '3.3.0.execjs.vice.therubyracer'
+  gem 'jekyll-lunr-js-search-multilingual', git: 'https://github.com/fortran-team/jekyll-lunr-js-search-multilingual'
   gem 'jekyll-pandoc', '~> 2'
 end
 gem 'pandoc-filter'
