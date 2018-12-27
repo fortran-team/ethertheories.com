@@ -40,9 +40,11 @@ http://10consulting.com/2013/03/06/jekyll-and-lunr-js-static-websites-with-power
         <script type="text/javascript">
             $(function () {
                 $('#search-query').lunrSearch({
-                    indexUrl: '{{ site.baseurl }}/js/index.json', // URL of the `index.json` index data for your site
-                    results:  '#search-results',                  // jQuery selector for the search results container
-                    template: '#search-results-template'          // jQuery selector for the Mustache.js template
+                    indexUrl: '{{ site.baseurl }}/js/index.json',                 // URL of the `index.json` index data for your site
+                    results : '#search-results',                                  // jQuery selector for the search results container
+                    template: '#search-results-template',                         // jQuery selector for the Mustache.js template
+                    titleMsg: '<h1>Результаты поиска</h1>',                       // message attached in front of results (can be empty)
+                    emptyMsg: '<p>По вашему запросу поиск не дал результатов</p>' // shown message if search returns no results
                 });
             });
         </script>
